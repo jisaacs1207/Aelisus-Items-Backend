@@ -23,12 +23,20 @@ function parseCSVFiles() {
         return row && row.area !== 'Limbo'; // Exclude rows where the area is "Limbo"
     }
 
+    // Function to preprocess the "short" column and remove '`' character and the next character
+    function preprocessShort(row) {
+        if (row.short && row.short.includes('`')) { // Check if the "short" column contains '`' character
+            row.short = row.short.replace(/`.?/g, ''); // Replace '`' character and the next character
+        }
+        return row;
+    }
+
     // Parse 'armor.csv' file
     fs.createReadStream(path.join(__dirname, 'csv', 'armor.csv')) // Read 'armor.csv' file
         .pipe(csv()) // Pipe the file stream to the CSV parser
         .on('data', (row) => { // Event listener for each row of data parsed
             if (filterLimbo(row)) {
-                parsedData.armor.push(row); // Push parsed row to 'armor' data array
+                parsedData.armor.push(preprocessShort(row)); // Push parsed row (after preprocessing) to 'armor' data array
             }
         })
         .on('end', () => {}); // Event listener for end of file stream
@@ -38,7 +46,7 @@ function parseCSVFiles() {
         .pipe(csv()) // Pipe the file stream to the CSV parser
         .on('data', (row) => { // Event listener for each row of data parsed
             if (filterLimbo(row)) {
-                parsedData.weapons.push(row); // Push parsed row to 'weapons' data array
+                parsedData.weapons.push(preprocessShort(row)); // Push parsed row (after preprocessing) to 'weapons' data array
             }
         })
         .on('end', () => {}); // Event listener for end of file stream
@@ -48,7 +56,7 @@ function parseCSVFiles() {
         .pipe(csv()) // Pipe the file stream to the CSV parser
         .on('data', (row) => { // Event listener for each row of data parsed
             if (filterLimbo(row)) {
-                parsedData.consumables.push(row); // Push parsed row to 'consumables' data array
+                parsedData.consumables.push(preprocessShort(row)); // Push parsed row (after preprocessing) to 'consumables' data array
             }
         })
         .on('end', () => {}); // Event listener for end of file stream
