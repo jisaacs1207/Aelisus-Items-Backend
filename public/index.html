@@ -88,13 +88,29 @@
 
                     data.forEach(item => {
                         const row = document.createElement('tr');
-                        // Render the short column first
+
+                        // Render the short column
                         const shortCell = document.createElement('td');
                         shortCell.textContent = item['short'];
                         row.appendChild(shortCell);
 
-                        // Skip rendering the U/R/C column
-                        const keys = Object.keys(item).filter(key => key !== 'U/R/C' && key !== 'short');
+                        // Render the level column
+                        const levelCell = document.createElement('td');
+                        levelCell.textContent = item['level'];
+                        row.appendChild(levelCell);
+
+                        // Render the area column
+                        const areaCell = document.createElement('td');
+                        areaCell.textContent = item['area'];
+                        row.appendChild(areaCell);
+
+                        // Render the U/R/C column with corresponding meanings
+                        const rarityCell = document.createElement('td');
+                        rarityCell.textContent = getRarityMeaning(item['U/R/C']);
+                        row.appendChild(rarityCell);
+
+                        // Skip rendering the short, level, area, and U/R/C columns
+                        const keys = Object.keys(item).filter(key => key !== 'short' && key !== 'level' && key !== 'area' && key !== 'U/R/C');
                         keys.forEach(key => {
                             const cell = document.createElement('td');
                             cell.textContent = item[key];
@@ -122,6 +138,20 @@
                     option.textContent = area;
                     areaSelect.appendChild(option);
                 });
+
+                // Helper function to get the meaning of U/R/C
+                function getRarityMeaning(value) {
+                    switch (value) {
+                        case 'U':
+                            return 'Unique';
+                        case 'R':
+                            return 'Rare';
+                        case 'C':
+                            return 'Common';
+                        default:
+                            return '';
+                    }
+                }
 
                 filterData();
 
