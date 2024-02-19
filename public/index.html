@@ -81,6 +81,12 @@
                 <option value="All">All Slots</option>
             </select>
         </div>
+        <div id="weaponTypeContainer" style="display: none;">
+            <!-- Dropdown for filtering by weapon type -->
+            <select id="weaponTypeSelect" onchange="filterData()">
+                <option value="All">All Weapon Types</option>
+            </select>
+        </div>
     </div>
     <br>
     <table id="dataTable">
@@ -108,16 +114,16 @@
             const lowerBound = parseInt(document.getElementById('lowerBoundInput').value) || 0;
             const upperBound = parseInt(document.getElementById('upperBoundInput').value) || Infinity;
             const slot = document.getElementById('slotSelect').value;
+            const weaponType = document.getElementById('weaponTypeSelect') ? document.getElementById('weaponTypeSelect').value : 'All';
 
             const filteredData = parsedData[category].filter(item => {
                 const matchArea = area === 'All' || item['area'].toLowerCase() === area.toLowerCase();
                 const matchLevelRange = (isNaN(lowerBound) || item['level'] >= lowerBound) && (isNaN(upperBound) || item['level'] <= upperBound);
                 const matchSlot = slot === 'All' || item['slot'] === slot;
-
-                // Only match rarity if it's not 'All' and if the category is 'armor' or 'weapons'
                 const matchRarity = rarity === 'All' || (category === 'armor' || category === 'weapons') && item['U/R/C'] === rarity.charAt(0);
+                const matchWeaponType = weaponType === 'All' || (category === 'weapons' && item['weapon type'] === weaponType);
 
-                return matchArea && matchLevelRange && matchSlot && matchRarity;
+                return matchArea && matchLevelRange && matchSlot && matchRarity && matchWeaponType;
             });
 
             renderTable(filteredData);
@@ -169,17 +175,17 @@
             const lowerBound = parseInt(document.getElementById('lowerBoundInput').value) || 0;
             const upperBound = parseInt(document.getElementById('upperBoundInput').value) || Infinity;
             const slot = document.getElementById('slotSelect').value;
+            const weaponType = document.getElementById('weaponTypeSelect') ? document.getElementById('weaponTypeSelect').value : 'All';
 
             const filteredData = parsedData[category].filter(item => {
                 const matchArea = area === 'All' || item['area'].toLowerCase() === area.toLowerCase();
                 const matchLevelRange = (isNaN(lowerBound) || item['level'] >= lowerBound) && (isNaN(upperBound) || item['level'] <= upperBound);
                 const matchSlot = slot === 'All' || item['slot'] === slot;
-
-                // Only match rarity if it's not 'All' and if the category is 'armor' or 'weapons'
                 const matchRarity = rarity === 'All' || (category === 'armor' || category === 'weapons') && item['U/R/C'] === rarity.charAt(0);
-
+                const matchWeaponType = weaponType === 'All' || (category === 'weapons' && item['weapon type'] === weaponType);
                 const columnValue = item['short'];
-                return columnValue && columnValue.toLowerCase().includes(searchInput) && matchArea && matchLevelRange && matchSlot && matchRarity;
+
+                return columnValue && columnValue.toLowerCase().includes(searchInput) && matchArea && matchLevelRange && matchSlot && matchRarity && matchWeaponType;
             });
 
             renderTable(filteredData);
@@ -189,6 +195,7 @@
             const category = document.getElementById('categorySelect').value;
             const rarityContainer = document.getElementById('rarityContainer');
             const slotContainer = document.getElementById('slotContainer');
+            const weaponTypeContainer = document.getElementById('weaponTypeContainer');
 
             // Show or hide the rarity dropdown based on the category
             rarityContainer.style.display = (category === 'armor' || category === 'weapons') ? 'block' : 'none';
@@ -196,13 +203,20 @@
             // Show or hide the slot dropdown based on the category
             slotContainer.style.display = (category === 'armor') ? 'block' : 'none';
 
+            // Show or hide the weapon type dropdown based on the category
+            weaponTypeContainer.style.display = (category === 'weapons') ? 'block' : 'none';
+
             // Reset dropdown values to 'All' when category is changed
             document.getElementById('raritySelect').value = 'All';
             document.getElementById('slotSelect').value = 'All';
+            if (document.getElementById('weaponTypeSelect')) {
+                document.getElementById('weaponTypeSelect').value = 'All';
+            }
 
             // Update dropdown options
             updateAreaDropdown();
             updateSlotDropdown();
+            updateWeaponTypeDropdown();
         }
 
         function updateSlotDropdown() {
@@ -248,6 +262,30 @@
                 option.value = area;
                 areaSelect.appendChild(option);
             });
+        }
+
+        function updateWeaponTypeDropdown() {
+            const category = document.getElementById('categorySelect').value;
+            if (category === 'weapons') {
+                const weaponTypeSelect = document.getElementById('weaponTypeSelect');
+                weaponTypeSelect.innerHTML = ''; // Clear existing options
+
+                const uniqueWeaponTypes = new Set(parsedData[category].map(item => item['weapon type']));
+                const allOption = document.createElement('option');
+                allOption.textContent = 'All Weapon Types';
+                allOption.value = 'All';
+                weaponTypeSelect.appendChild(allOption);
+
+                uniqueWeaponTypes.forEach(weaponType => {
+                    if (weaponType) { // Check if weaponType is not empty or undefined
+                        const capitalizedWeaponType = weaponType.charAt(0).toUpperCase() + weaponType.slice(1); // Capitalize first letter
+                        const option = document.createElement('option');
+                        option.textContent = capitalizedWeaponType;
+                        option.value = weaponType; // Keep the original value for filtering
+                        weaponTypeSelect.appendChild(option);
+                    }
+                });
+            }
         }
 
         // Helper function to get the meaning of U/R/C
