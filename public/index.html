@@ -28,7 +28,7 @@
     <h1>Parsed Data</h1>
     <div>
         <input type="text" id="searchInput" onkeyup="searchData()" placeholder="Search by third column...">
-        <select id="categorySelect" onchange="updateSlotDropdown(); filterData()">
+        <select id="categorySelect" onchange="updateAreaDropdown(); updateSlotDropdown(); filterData()">
             <option value="armor">Armor</option>
             <option value="weapons">Weapons</option>
             <option value="consumables">Consumables</option>
@@ -41,7 +41,7 @@
         </select>
         <!-- New dropdown for filtering by Area -->
         <select id="areaSelect" onchange="filterData()">
-            <option value="All">All</option>
+            <option value="All">All Areas</option>
         </select>
         <!-- Input fields for selecting a range -->
         <input type="number" id="lowerBoundInput" oninput="filterData()" placeholder="Lower Bound">
@@ -65,6 +65,7 @@
             .then(response => response.json())
             .then(data => {
                 parsedData = data;
+                updateAreaDropdown();
                 updateSlotDropdown();
                 filterData();
             })
@@ -167,6 +168,25 @@
                 allOption.value = 'All';
                 slotSelect.appendChild(allOption);
             }
+        }
+
+        function updateAreaDropdown() {
+            const category = document.getElementById('categorySelect').value;
+            const areaSelect = document.getElementById('areaSelect');
+            areaSelect.innerHTML = ''; // Clear existing options
+
+            const uniqueAreas = new Set(parsedData[category].map(item => item.area));
+            const allOption = document.createElement('option');
+            allOption.textContent = 'All Areas';
+            allOption.value = 'All';
+            areaSelect.appendChild(allOption);
+
+            uniqueAreas.forEach(area => {
+                const option = document.createElement('option');
+                option.textContent = area;
+                option.value = area;
+                areaSelect.appendChild(option);
+            });
         }
 
         // Helper function to get the meaning of U/R/C
