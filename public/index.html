@@ -33,6 +33,12 @@
             <option value="weapons">Weapons</option>
             <option value="consumables">Consumables</option>
         </select>
+        <select id="raritySelect" onchange="filterData()">
+            <option value="All">All</option>
+            <option value="Common">Common</option>
+            <option value="Rare">Rare</option>
+            <option value="Unique">Unique</option>
+        </select>
     </div>
     <br>
     <table id="dataTable">
@@ -49,7 +55,10 @@
 
                 function filterData() {
                     const category = document.getElementById('categorySelect').value;
-                    currentData = parsedData[category];
+                    const rarity = document.getElementById('raritySelect').value;
+                    currentData = parsedData[category].filter(item => {
+                        return rarity === 'All' || item['U/R/C'] === rarity.charAt(0);
+                    });
 
                     const searchInput = document.getElementById('searchInput').value.trim().toLowerCase();
                     if (searchInput !== '') {
@@ -69,9 +78,11 @@
 
                     data.forEach(item => {
                         const row = document.createElement('tr');
-                        Object.values(item).forEach(value => {
+                        // Skip rendering the U/R/C column
+                        const keys = Object.keys(item).filter(key => key !== 'U/R/C');
+                        keys.forEach(key => {
                             const cell = document.createElement('td');
-                            cell.textContent = value;
+                            cell.textContent = item[key];
                             row.appendChild(cell);
                         });
                         tableBody.appendChild(row);
