@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parsed Data</title>
-    <!-- CSS styles -->
     <style>
         table {
             border-collapse: collapse;
@@ -26,9 +25,7 @@
 </head>
 
 <body>
-    <!-- Title -->
     <h1>Parsed Data</h1>
-    <!-- Search input and category dropdown -->
     <div>
         <input type="text" id="searchInput" onkeyup="searchData()" placeholder="Search by third column...">
         <select id="categorySelect" onchange="filterData()">
@@ -38,68 +35,62 @@
         </select>
     </div>
     <br>
-    <!-- Table to display data -->
     <table id="dataTable">
         <tbody>
+            <!-- Data rows will be dynamically added here -->
         </tbody>
     </table>
 
     <script>
-        // Fetch parsed data from the server
         fetch('/parsedData')
             .then(response => response.json())
             .then(parsedData => {
-                // Initialize variable to store current data
                 let currentData = parsedData;
 
-                // Function to filter data based on category selection
                 function filterData() {
-                    // Get selected category
                     const category = document.getElementById('categorySelect').value;
-                    // Update current data based on selected category
                     currentData = parsedData[category];
-                    // Render table with updated data
-                    renderTable(currentData);
+
+                    const searchInput = document.getElementById('searchInput').value.trim().toLowerCase();
+                    if (searchInput !== '') {
+                        const filteredData = currentData.filter(item => {
+                            const columnValue = item['short'];
+                            return columnValue && columnValue.toLowerCase().includes(searchInput);
+                        });
+                        renderTable(filteredData);
+                    } else {
+                        renderTable(currentData);
+                    }
                 }
 
-                // Function to render table with data
                 function renderTable(data) {
-                    // Get table body element
                     const tableBody = document.querySelector('#dataTable tbody');
-                    // Clear existing table rows
                     tableBody.innerHTML = '';
 
-                    // Iterate through data and create table rows
                     data.forEach(item => {
                         const row = document.createElement('tr');
-                        // Iterate through item properties and create table cells
                         Object.values(item).forEach(value => {
                             const cell = document.createElement('td');
                             cell.textContent = value;
                             row.appendChild(cell);
                         });
-                        // Append row to table body
                         tableBody.appendChild(row);
                     });
                 }
 
-                // Function to search data based on user input
                 function searchData() {
-                    // Get search input value
                     const searchInput = document.getElementById('searchInput').value.toLowerCase();
-                    // Filter current data based on search input
                     const filteredData = currentData.filter(item => {
-                        // Adjust property name according to your data structure
                         const columnValue = item['short'];
-                        // Check if column value contains search input
                         return columnValue && columnValue.toLowerCase().includes(searchInput);
                     });
-                    // Render table with filtered data
                     renderTable(filteredData);
                 }
 
-                // Initial rendering of table with default data
                 filterData();
+
+                window.filterData = filterData;
+                window.searchData = searchData;
             })
             .catch(error => console.error('Error fetching parsed data:', error));
     </script>

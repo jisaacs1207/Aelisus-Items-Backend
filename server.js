@@ -3,7 +3,7 @@ const express = require('express');
 // Create an Express application
 const app = express();
 // Define the port number
-const port = 4000;
+const port = 80;
 // Import parsedData object from the 'app.js' file
 const { parsedData } = require('./app.js');
 
