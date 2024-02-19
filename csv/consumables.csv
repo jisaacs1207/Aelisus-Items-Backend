@@ -1,0 +1,79 @@
+vnum,area,type,short,level,affect
+24,Limbo,potion,a `5void`` stained vial,0,sanctuary
+31,Limbo,potion,a potion,0,poison
+159,Limbo,herb,a template herb,1,reserved
+160,Limbo,herb,a snowy poppyseed pod,30,sanctuary
+161,Limbo,herb,some shimmering turmeric,30,bless
+162,Limbo,herb,a magenta herb,30,frenzy
+163,Limbo,herb,a periwinkle herb,30,fly
+164,Limbo,herb,some oak bark,30,giant strength
+165,Limbo,herb,a swirling purple herb,30,cure blindness
+166,Limbo,herb,a pink echinacea,30,cure disease
+167,Limbo,herb,a chamomile blossom,30,cure poison
+168,Limbo,herb,a purple canna flower,30,detect invis
+169,Limbo,herb,some grey sage leaves,30,detect magic
+170,Limbo,herb,an orange canna flower,30,invisibility
+171,Limbo,herb,a white yarrow flower,30,pass door
+172,Limbo,herb,some psilomold,30,teleport
+173,Limbo,herb,some spearmint leaves,30,word of recall
+174,Limbo,herb,an azure voidblossom,30,calm
+175,Limbo,herb,a dandelion flower,30,shield
+176,Limbo,herb,a blue chicory flower,30,stone skin
+177,Limbo,herb,some green seaweed,30,flesh armor
+311,Plains,potion,a clear potion,7,detect evil
+315,Plains,potion,a perfectly clear potion,5,omnipotence
+316,Plains,potion,a glowing red potion,15,cure blindness
+317,Plains,potion,a pure white potion,10,cure disease
+318,Plains,potion,a pale green potion,10,cure poison
+319,Plains,potion,a winged bottle,10,fly
+320,Plains,potion,a purple recall potion,10,word of recall
+511,Apex City,potion,a soothing salve,42,cure disease
+512,Apex City,potion,a neutralizing salve,42,cure poison
+527,Apex City,potion,a clarity salve,42,cure blindness
+1918,Shifting Sands,herb,a pink desert lily,0,reserved
+2006,Marintide,herb,some green seaweed,30,flesh armor
+2616,Tyr Unguld,potion,a frozen swirled potion,10,blindness
+2900,Kirameku Bay,pill,some jellied eels,20,water breathing
+2901,Kirameku Bay,pill,some slow-roasted barracuda,30,water breathing
+2902,Kirameku Bay,pill,starfish soup,40,water breathing
+3401,Crypt of the Risen,potion,a beaker of blood,0,frenzy
+3744,Field of Stone,potion,a swirling flight potion,0,fly
+7614,Muggers Alley,potion,a roiling anti-hysteria potion,0,harm
+7615,Muggers Alley,potion,a white translucent potion,25,pass door
+7625,Muggers Alley,potion,a potion of recall,10,word of recall
+7627,Muggers Alley,pill,a white pill,20,armor
+7628,Muggers Alley,potion,a glowing red potion,15,cure blindness
+10099,The Grinning Owl Inn,potion,a potion of radiant strength,60,change sex
+10337,Winter,potion,a potion of the ancients,50,sanctuary
+10810,Faction of Steel,pill,a striped multi-valved heart,50,(null)
+17120,Palace of the Empire,potion,a recall potion,15,word of recall
+17121,Palace of the Empire,potion,a winged potion,15,fly
+17125,Palace of the Empire,potion,a red elixir,15,cure blindness
+17126,Palace of the Empire,pill,an anti-invisibility pill,15,detect invis
+17127,Palace of the Empire,pill,a detect magic tablet,15,detect magic
+17140,Palace of the Empire,potion,a potion of detect-invisibility,20,detect invis
+17202,Occult Tower,potion,a winged potion,15,fly
+17203,Occult Tower,pill,an anti-invisibility pill,15,detect invis
+17205,Occult Tower,potion,a red flask,15,cure blindness
+17206,Occult Tower,potion,a recall potion,15,word of recall
+17207,Occult Tower,pill,a detect magic tablet,15,detect magic
+17401,Camp of Insurgents,potion,a bottle of red eye,15,cure blindness
+17402,Camp of Insurgents,herb,a packet of 'hasty retreat' powder,15,word of recall
+17403,Camp of Insurgents,pill,a pair of lizard testicles,35,cure poison
+17404,Camp of Insurgents,pill,a string of garlic,45,purge unlife
+17405,Camp of Insurgents,potion,a winged potion,15,fly
+17408,Camp of Insurgents,potion,an elixir of group recall,15,group recall
+20109,Atheln,potion,a light blue potion,15,detect invis
+20112,Atheln,potion,a glowing red potion,15,cure blindness
+20114,Atheln,potion,a swirling potion of group recall,30,group recall
+20141,Atheln,potion,a purple recall potion,10,word of recall
+20142,Atheln,potion,a winged bottle,10,fly
+20143,Atheln,potion,a pale green potion,10,cure poison
+20144,Atheln,potion,a pure white potion,10,cure disease
+20415,Caelwyn,potion,a light blue potion,15,detect invis
+20416,Caelwyn,potion,a glowing red potion,15,cure blindness
+20417,Caelwyn,potion,a purple recall potion,10,word of recall
+20418,Caelwyn,potion,a winged bottle,10,fly
+20419,Caelwyn,potion,a pale green potion,10,cure poison
+20420,Caelwyn,potion,a pure white potion,10,cure disease
+20767,Caelwyn,potion,a glowing red potion,15,cure blindness
