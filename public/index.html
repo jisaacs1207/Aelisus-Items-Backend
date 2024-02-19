@@ -143,30 +143,29 @@
             renderTable(filteredData);
         }
 
-        // Update the slot dropdown based on the selected category
         function updateSlotDropdown() {
             const category = document.getElementById('categorySelect').value;
             const slotSelect = document.getElementById('slotSelect');
             slotSelect.innerHTML = ''; // Clear existing options
 
-            if (category === 'consumables') {
-                const option = document.createElement('option');
-                option.textContent = 'All Slots';
-                option.value = 'All';
-                slotSelect.appendChild(option);
-            } else if (category === 'weapons') {
-                const option = document.createElement('option');
-                option.textContent = 'All Slots';
-                option.value = 'All';
-                slotSelect.appendChild(option);
-            } else { // For armor category
-                const slots = new Set(parsedData.armor.map(item => item.slot)); // Assuming armor has all possible slots
-                slots.forEach(slot => {
+            if (category === 'armor') {
+                const uniqueSlots = new Set(parsedData[category].map(item => item.slot));
+                const allOption = document.createElement('option');
+                allOption.textContent = 'All Slots';
+                allOption.value = 'All';
+                slotSelect.appendChild(allOption);
+
+                uniqueSlots.forEach(slot => {
                     const option = document.createElement('option');
                     option.textContent = slot;
                     option.value = slot;
                     slotSelect.appendChild(option);
                 });
+            } else {
+                const allOption = document.createElement('option');
+                allOption.textContent = 'All Slots';
+                allOption.value = 'All';
+                slotSelect.appendChild(allOption);
             }
         }
 
