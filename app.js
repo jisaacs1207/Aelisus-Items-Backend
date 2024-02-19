@@ -17,12 +17,19 @@ function parseCSVFiles() {
     parsedData.armor = [];
     parsedData.weapons = [];
     parsedData.consumables = [];
-    
+
+    // Function to filter out rows with "Limbo" in the area column
+    function filterLimbo(row) {
+        return row && row.area !== 'Limbo'; // Exclude rows where the area is "Limbo"
+    }
+
     // Parse 'armor.csv' file
     fs.createReadStream(path.join(__dirname, 'csv', 'armor.csv')) // Read 'armor.csv' file
         .pipe(csv()) // Pipe the file stream to the CSV parser
         .on('data', (row) => { // Event listener for each row of data parsed
-            parsedData.armor.push(row); // Push parsed row to 'armor' data array
+            if (filterLimbo(row)) {
+                parsedData.armor.push(row); // Push parsed row to 'armor' data array
+            }
         })
         .on('end', () => {}); // Event listener for end of file stream
 
@@ -30,7 +37,9 @@ function parseCSVFiles() {
     fs.createReadStream(path.join(__dirname, 'csv', 'weapons.csv')) // Read 'weapons.csv' file
         .pipe(csv()) // Pipe the file stream to the CSV parser
         .on('data', (row) => { // Event listener for each row of data parsed
-            parsedData.weapons.push(row); // Push parsed row to 'weapons' data array
+            if (filterLimbo(row)) {
+                parsedData.weapons.push(row); // Push parsed row to 'weapons' data array
+            }
         })
         .on('end', () => {}); // Event listener for end of file stream
 
@@ -38,7 +47,9 @@ function parseCSVFiles() {
     fs.createReadStream(path.join(__dirname, 'csv', 'consumables.csv')) // Read 'consumables.csv' file
         .pipe(csv()) // Pipe the file stream to the CSV parser
         .on('data', (row) => { // Event listener for each row of data parsed
-            parsedData.consumables.push(row); // Push parsed row to 'consumables' data array
+            if (filterLimbo(row)) {
+                parsedData.consumables.push(row); // Push parsed row to 'consumables' data array
+            }
         })
         .on('end', () => {}); // Event listener for end of file stream
 }
