@@ -149,7 +149,7 @@
             const slotSelect = document.getElementById('slotSelect');
             slotSelect.innerHTML = ''; // Clear existing options
 
-            if (category === 'armor') {
+            if (category === 'consumables') {
                 const option = document.createElement('option');
                 option.textContent = 'All Slots';
                 option.value = 'All';
@@ -159,11 +159,14 @@
                 option.textContent = 'All Slots';
                 option.value = 'All';
                 slotSelect.appendChild(option);
-            } else { // For consumables category
-                const option = document.createElement('option');
-                option.textContent = 'All Slots';
-                option.value = 'All';
-                slotSelect.appendChild(option);
+            } else { // For armor category
+                const slots = new Set(parsedData.armor.map(item => item.slot)); // Assuming armor has all possible slots
+                slots.forEach(slot => {
+                    const option = document.createElement('option');
+                    option.textContent = slot;
+                    option.value = slot;
+                    slotSelect.appendChild(option);
+                });
             }
         }
 
