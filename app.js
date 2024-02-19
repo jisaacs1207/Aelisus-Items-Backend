@@ -18,9 +18,9 @@ function parseCSVFiles() {
     parsedData.weapons = [];
     parsedData.consumables = [];
 
-    // Function to filter out rows with "Limbo" in the area column
+    // Function to filter out rows with "Limbo" or "Limbo Extension" in the area column
     function filterLimbo(row) {
-        return row && row.area !== 'Limbo'; // Exclude rows where the area is "Limbo"
+        return row && row.area !== 'Limbo' && row.area !== 'Limbo Extension'; // Exclude rows where the area is "Limbo" or "Limbo Extension"
     }
 
     // Function to preprocess the "short" column and remove '`' character and the next character
