@@ -43,6 +43,9 @@
         <select id="areaSelect" onchange="filterData()">
             <option value="All">All</option>
         </select>
+        <!-- Input fields for selecting a range -->
+        <input type="number" id="lowerBoundInput" oninput="filterData()" placeholder="Lower Bound">
+        <input type="number" id="upperBoundInput" oninput="filterData()" placeholder="Upper Bound">
     </div>
     <br>
     <table id="dataTable">
@@ -61,12 +64,15 @@
                     const category = document.getElementById('categorySelect').value;
                     const rarity = document.getElementById('raritySelect').value;
                     const area = document.getElementById('areaSelect').value;
+                    const lowerBound = parseInt(document.getElementById('lowerBoundInput').value);
+                    const upperBound = parseInt(document.getElementById('upperBoundInput').value);
 
                     currentData = parsedData[category].filter(item => {
                         const matchRarity = rarity === 'All' || item['U/R/C'] === rarity.charAt(0);
                         const matchArea = area === 'All' || item['area'].toLowerCase() === area.toLowerCase();
+                        const matchLevelRange = isNaN(lowerBound) || isNaN(upperBound) || (item['level'] >= lowerBound && item['level'] <= upperBound);
 
-                        return matchRarity && matchArea;
+                        return matchRarity && matchArea && matchLevelRange;
                     });
 
                     const searchInput = document.getElementById('searchInput').value.trim().toLowerCase();
