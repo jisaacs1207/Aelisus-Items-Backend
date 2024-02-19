@@ -39,6 +39,10 @@
             <option value="Rare">Rare</option>
             <option value="Unique">Unique</option>
         </select>
+        <!-- New dropdown for filtering by Area -->
+        <select id="areaSelect" onchange="filterData()">
+            <option value="All">All</option>
+        </select>
     </div>
     <br>
     <table id="dataTable">
@@ -56,8 +60,13 @@
                 function filterData() {
                     const category = document.getElementById('categorySelect').value;
                     const rarity = document.getElementById('raritySelect').value;
+                    const area = document.getElementById('areaSelect').value;
+
                     currentData = parsedData[category].filter(item => {
-                        return rarity === 'All' || item['U/R/C'] === rarity.charAt(0);
+                        const matchRarity = rarity === 'All' || item['U/R/C'] === rarity.charAt(0);
+                        const matchArea = area === 'All' || item['area'].toLowerCase() === area.toLowerCase();
+
+                        return matchRarity && matchArea;
                     });
 
                     const searchInput = document.getElementById('searchInput').value.trim().toLowerCase();
@@ -71,6 +80,7 @@
                         renderTable(currentData);
                     }
                 }
+
 
                 function renderTable(data) {
                     const tableBody = document.querySelector('#dataTable tbody');
@@ -102,6 +112,16 @@
                     });
                     renderTable(filteredData);
                 }
+
+                // Populate the Area dropdown with unique values
+                const areaSelect = document.getElementById('areaSelect');
+                const areas = new Set(parsedData.armor.map(item => item.area)); // Assuming armor has all possible areas
+                areas.forEach(area => {
+                    const option = document.createElement('option');
+                    option.value = area.toLowerCase(); // Ensure lowercase
+                    option.textContent = area;
+                    areaSelect.appendChild(option);
+                });
 
                 filterData();
 
