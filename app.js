@@ -28,6 +28,7 @@ function parseCSVFiles() {
         if (row.short && row.short.includes('`')) { // Check if the "short" column contains '`' character
             row.short = row.short.replace(/`.?/g, ''); // Replace '`' character and the next character
         }
+        delete row.vnum; // Omit the 'vnum' property
         return row;
     }
 
