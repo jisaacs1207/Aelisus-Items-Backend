@@ -44,8 +44,8 @@
             <option value="All">All Areas</option>
         </select>
         <!-- Input fields for selecting a range -->
-        <input type="number" id="lowerBoundInput" oninput="filterData()" placeholder="Lower Bound">
-        <input type="number" id="upperBoundInput" oninput="filterData()" placeholder="Upper Bound">
+        <input type="number" id="lowerBoundInput" oninput="filterData()" placeholder="Lowest Level">
+        <input type="number" id="upperBoundInput" oninput="filterData()" placeholder="Highest Level">
         <!-- Dropdown for filtering by slot -->
         <select id="slotSelect" onchange="filterData()">
             <option value="All">All Slots</option>
@@ -82,7 +82,7 @@
             const filteredData = parsedData[category].filter(item => {
                 const matchRarity = rarity === 'All' || item['U/R/C'] === rarity.charAt(0);
                 const matchArea = area === 'All' || item['area'].toLowerCase() === area.toLowerCase();
-                const matchLevelRange = item['level'] >= lowerBound && item['level'] <= upperBound;
+                const matchLevelRange = (isNaN(lowerBound) || item['level'] >= lowerBound) && (isNaN(upperBound) || item['level'] <= upperBound);
                 const matchSlot = slot === 'All' || item['slot'] === slot;
 
                 return matchRarity && matchArea && matchLevelRange && matchSlot;
