@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Parsed Data</title>
+    <title>Aelisus Items</title>
     <style>
         table {
             border-collapse: collapse;
@@ -21,35 +21,66 @@
         th {
             background-color: #f2f2f2;
         }
+
+        .center {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .flex-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .flex-container>div {
+            margin-right: 10px;
+        }
     </style>
 </head>
 
 <body>
-    <h1>Parsed Data</h1>
-    <div>
-        <input type="text" id="searchInput" onkeyup="searchData()" placeholder="Search Name">
-        <select id="categorySelect" onchange="updateAreaDropdown(); updateSlotDropdown(); filterData()">
-            <option value="armor">Armor</option>
-            <option value="weapons">Weapons</option>
-            <option value="consumables">Consumables</option>
-        </select>
-        <select id="raritySelect" onchange="filterData()">
-            <option value="All">All Rarity</option>
-            <option value="Common">Common</option>
-            <option value="Rare">Rare</option>
-            <option value="Unique">Unique</option>
-        </select>
-        <!-- New dropdown for filtering by Area -->
-        <select id="areaSelect" onchange="filterData()">
-            <option value="All">All Areas</option>
-        </select>
-        <!-- Input fields for selecting a range -->
-        <input type="number" id="lowerBoundInput" oninput="filterData()" placeholder="Lowest Level">
-        <input type="number" id="upperBoundInput" oninput="filterData()" placeholder="Highest Level">
-        <!-- Dropdown for filtering by slot -->
-        <select id="slotSelect" onchange="filterData()">
-            <option value="All">All Slots</option>
-        </select>
+    <h1 class="center">Aelisus Items</h1>
+    <div class="flex-container">
+        <div>
+            <input type="text" id="searchInput" onkeyup="searchData()" placeholder="Search Name">
+            <select id="categorySelect" onchange="updateDropdowns(); filterData()">
+                <option value="armor">Armor</option>
+                <option value="weapons">Weapons</option>
+                <option value="consumables">Consumables</option>
+            </select>
+        </div>
+    </div>
+    <div class="flex-container">
+        <div>
+            <!-- New dropdown for filtering by Area -->
+            <select id="areaSelect" onchange="filterData()">
+                <option value="All">All Areas</option>
+            </select>
+        </div>
+        <div>
+            <!-- Input fields for selecting a range -->
+            <input type="number" id="lowerBoundInput" oninput="filterData()" placeholder="Lowest Level">
+            <input type="number" id="upperBoundInput" oninput="filterData()" placeholder="Highest Level">
+        </div>
+    </div>
+    <div class="flex-container">
+        <div id="rarityContainer">
+            <!-- Dropdown for filtering by rarity -->
+            <select id="raritySelect" onchange="filterData()">
+                <option value="All">All Rarity</option>
+                <option value="Common">Common</option>
+                <option value="Rare">Rare</option>
+                <option value="Unique">Unique</option>
+            </select>
+        </div>
+        <div id="slotContainer">
+            <!-- Dropdown for filtering by slot -->
+            <select id="slotSelect" onchange="filterData()">
+                <option value="All">All Slots</option>
+            </select>
+        </div>
     </div>
     <br>
     <table id="dataTable">
@@ -65,8 +96,7 @@
             .then(response => response.json())
             .then(data => {
                 parsedData = data;
-                updateAreaDropdown();
-                updateSlotDropdown();
+                updateDropdowns();
                 filterData();
             })
             .catch(error => console.error('Error fetching parsed data:', error));
@@ -80,21 +110,17 @@
             const slot = document.getElementById('slotSelect').value;
 
             const filteredData = parsedData[category].filter(item => {
-                const matchRarity = rarity === 'All' || item['U/R/C'] === rarity.charAt(0);
                 const matchArea = area === 'All' || item['area'].toLowerCase() === area.toLowerCase();
                 const matchLevelRange = (isNaN(lowerBound) || item['level'] >= lowerBound) && (isNaN(upperBound) || item['level'] <= upperBound);
                 const matchSlot = slot === 'All' || item['slot'] === slot;
 
-                return matchRarity && matchArea && matchLevelRange && matchSlot;
+                // Only match rarity if it's not 'All' and if the category is 'armor' or 'weapons'
+                const matchRarity = rarity === 'All' || (category === 'armor' || category === 'weapons') && item['U/R/C'] === rarity.charAt(0);
+
+                return matchArea && matchLevelRange && matchSlot && matchRarity;
             });
 
-            const searchInput = document.getElementById('searchInput').value.trim().toLowerCase();
-            const searchedData = filteredData.filter(item => {
-                const columnValue = item['short'];
-                return columnValue && columnValue.toLowerCase().includes(searchInput);
-            });
-
-            renderTable(searchedData);
+            renderTable(filteredData);
         }
 
         function renderTable(data) {
@@ -137,11 +163,46 @@
 
         function searchData() {
             const searchInput = document.getElementById('searchInput').value.toLowerCase();
-            const filteredData = currentData.filter(item => {
+            const category = document.getElementById('categorySelect').value;
+            const rarity = document.getElementById('raritySelect').value;
+            const area = document.getElementById('areaSelect').value;
+            const lowerBound = parseInt(document.getElementById('lowerBoundInput').value) || 0;
+            const upperBound = parseInt(document.getElementById('upperBoundInput').value) || Infinity;
+            const slot = document.getElementById('slotSelect').value;
+
+            const filteredData = parsedData[category].filter(item => {
+                const matchArea = area === 'All' || item['area'].toLowerCase() === area.toLowerCase();
+                const matchLevelRange = (isNaN(lowerBound) || item['level'] >= lowerBound) && (isNaN(upperBound) || item['level'] <= upperBound);
+                const matchSlot = slot === 'All' || item['slot'] === slot;
+
+                // Only match rarity if it's not 'All' and if the category is 'armor' or 'weapons'
+                const matchRarity = rarity === 'All' || (category === 'armor' || category === 'weapons') && item['U/R/C'] === rarity.charAt(0);
+
                 const columnValue = item['short'];
-                return columnValue && columnValue.toLowerCase().includes(searchInput);
+                return columnValue && columnValue.toLowerCase().includes(searchInput) && matchArea && matchLevelRange && matchSlot && matchRarity;
             });
+
             renderTable(filteredData);
+        }
+
+        function updateDropdowns() {
+            const category = document.getElementById('categorySelect').value;
+            const rarityContainer = document.getElementById('rarityContainer');
+            const slotContainer = document.getElementById('slotContainer');
+
+            // Show or hide the rarity dropdown based on the category
+            rarityContainer.style.display = (category === 'armor' || category === 'weapons') ? 'block' : 'none';
+
+            // Show or hide the slot dropdown based on the category
+            slotContainer.style.display = (category === 'armor') ? 'block' : 'none';
+
+            // Reset dropdown values to 'All' when category is changed
+            document.getElementById('raritySelect').value = 'All';
+            document.getElementById('slotSelect').value = 'All';
+
+            // Update dropdown options
+            updateAreaDropdown();
+            updateSlotDropdown();
         }
 
         function updateSlotDropdown() {
