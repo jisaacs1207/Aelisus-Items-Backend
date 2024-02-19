@@ -133,6 +133,8 @@
             const tableBody = document.querySelector('#dataTable tbody');
             tableBody.innerHTML = '';
 
+            const category = document.getElementById('categorySelect').value;
+
             data.forEach(item => {
                 const row = document.createElement('tr');
 
@@ -156,16 +158,25 @@
                 rarityCell.textContent = getRarityMeaning(item['U/R/C']);
                 row.appendChild(rarityCell);
 
-                // Skip rendering the short, level, area, and U/R/C columns
-                const keys = Object.keys(item).filter(key => key !== 'short' && key !== 'level' && key !== 'area' && key !== 'U/R/C');
+                // Render the slot column only if the category is not 'weapons' and not 'consumables'
+                if (category !== 'weapons' && category !== 'consumables') {
+                    const slotCell = document.createElement('td');
+                    slotCell.textContent = item['slot'];
+                    row.appendChild(slotCell);
+                }
+
+                // Skip rendering the short, level, area, U/R/C, and slot columns
+                const keys = Object.keys(item).filter(key => key !== 'short' && key !== 'level' && key !== 'area' && key !== 'U/R/C' && key !== 'slot');
                 keys.forEach(key => {
                     const cell = document.createElement('td');
                     cell.textContent = item[key];
                     row.appendChild(cell);
                 });
+
                 tableBody.appendChild(row);
             });
         }
+
 
         function searchData() {
             const searchInput = document.getElementById('searchInput').value.toLowerCase();
