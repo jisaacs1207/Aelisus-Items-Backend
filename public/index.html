@@ -78,8 +78,13 @@
 
                     data.forEach(item => {
                         const row = document.createElement('tr');
+                        // Render the short column first
+                        const shortCell = document.createElement('td');
+                        shortCell.textContent = item['short'];
+                        row.appendChild(shortCell);
+
                         // Skip rendering the U/R/C column
-                        const keys = Object.keys(item).filter(key => key !== 'U/R/C');
+                        const keys = Object.keys(item).filter(key => key !== 'U/R/C' && key !== 'short');
                         keys.forEach(key => {
                             const cell = document.createElement('td');
                             cell.textContent = item[key];
