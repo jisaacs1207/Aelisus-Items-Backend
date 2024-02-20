@@ -1,0 +1,7 @@
+good, neutral, evil, spellforged, vuln, weapon, flaming, frost, vampiric, sharp, vorpal, two hands, shocking, poison, paralyze, wounds, deadly, bless, evil, nodisarm, nodrop, parry, skill, addaffect, addimmune, addresist, addvuln, socketable, burnproof, rotdeath, meltdrop, autospell
+good, neutral, evil, spellforged, vuln, weapon, flaming, frost, vampiric, sharp, vorpal, two hands, shocking, poison, paralyze, wounds, deadly, bless, evil, nodisarm, nodrop, parry, skill, addaffect, addimmune, addresist, addvuln, socketable, burnproof, rotdeath, meltdrop, autospell
+
+
+vnum,area,short,level,U/R/C,slot,good,neutral,evil,avgarmor,weight,spellforged,vuln weapon,flaming,frost,vampiric,sharp,vorpal,two hands,shocking,poison,paralyze,wounds,deadly,bless,evil,nodisarm,nodrop,parry,skill,addaffect,addimmune,addresist,addvuln,str,dex,int,wis,con,luck,size,mana,hp,move,ac,hitroll,damroll,saving aff,saving mal,saving mental,saving breath,saving spell,spell level,aff pen,mal pen,mental pen,breath pen,spell pen,aff level,mal level,mental level,skill learn,spell learn,hitgain,managain,movegain,socketable,burnproof,rotdeath,meltdrop,autospell
+
+str, dex, int, wis, con, luck, size, mana, hp, move, ac, hitroll, damroll, saving aff, saving mal, saving mental, saving breath, saving spell, spell level, aff pen, mal pen, mental pen, breath pen, spell pen, aff level, mal level, mental level, skill learn, spell learn, hitgain, managain, movegain

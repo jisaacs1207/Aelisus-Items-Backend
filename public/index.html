@@ -143,8 +143,16 @@
             // Get keys from the first item in the data array
             const keys = Object.keys(data[0]);
 
-            // Loop through keys to create table headers
-            keys.forEach(key => {
+            // Filter keys to exclude specified columns
+            const filteredKeys = keys.filter(key => ![
+                'good', 'neutral', 'evil', 'spellforged', 'vuln', 'weapon', 'flaming', 'frost', 'vampiric',
+                'sharp', 'vorpal', 'two hands', 'shocking', 'poison', 'paralyze', 'wounds', 'deadly',
+                'bless', 'evil', 'nodisarm', 'nodrop', 'parry', 'skill', 'addaffect', 'addimmune',
+                'addresist', 'addvuln', 'socketable', 'burnproof', 'rotdeath', 'meltdrop', 'autospell'
+            ].includes(key));
+
+            // Loop through filtered keys to create table headers
+            filteredKeys.forEach(key => {
                 const th = document.createElement('th');
                 th.textContent = key;
                 headerRow.appendChild(th);
@@ -157,8 +165,8 @@
             data.forEach(item => {
                 const row = document.createElement('tr');
 
-                // Loop through keys to create table cells
-                keys.forEach(key => {
+                // Loop through filtered keys to create table cells
+                filteredKeys.forEach(key => {
                     const cell = document.createElement('td');
                     cell.textContent = item[key];
                     row.appendChild(cell);
