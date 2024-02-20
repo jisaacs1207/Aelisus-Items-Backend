@@ -149,20 +149,30 @@
             // Extract keys from the first item in the data array
             const keys = Object.keys(data[0]);
 
-            // Loop through keys to create table headers
-            keys.forEach(key => {
-                // If the key is in the flagColumns, skip it for now
-                if (flagColumns.includes(key)) return;
+            // If the category is "Consumables", only include columns present in its dataset
+            if (document.getElementById('categorySelect').value === 'consumables') {
+                keys.forEach(key => {
+                    if (!flagColumns.includes(key)) {
+                        const th = document.createElement('th');
+                        th.textContent = key;
+                        headerRow.appendChild(th);
+                    }
+                });
+            } else {
+                // For other categories, include all keys except the Flags column
+                keys.forEach(key => {
+                    if (!flagColumns.includes(key)) {
+                        const th = document.createElement('th');
+                        th.textContent = key;
+                        headerRow.appendChild(th);
+                    }
+                });
 
-                const th = document.createElement('th');
-                th.textContent = key;
-                headerRow.appendChild(th);
-            });
-
-            // Add "Flags" column header
-            const flagsHeader = document.createElement('th');
-            flagsHeader.textContent = 'Flags';
-            headerRow.appendChild(flagsHeader);
+                // Add "Flags" column header
+                const flagsHeader = document.createElement('th');
+                flagsHeader.textContent = 'Flags';
+                headerRow.appendChild(flagsHeader);
+            }
 
             // Append header row to table header
             tableHeader.appendChild(headerRow);
@@ -173,27 +183,24 @@
 
                 // Loop through keys to create table cells
                 keys.forEach(key => {
-                    // If the key is in the flagColumns, skip it for now
-                    if (flagColumns.includes(key)) return;
-
-                    const cell = document.createElement('td');
-                    cell.textContent = item[key];
-                    row.appendChild(cell);
+                    if (!flagColumns.includes(key)) {
+                        const cell = document.createElement('td');
+                        cell.textContent = item[key];
+                        row.appendChild(cell);
+                    }
                 });
 
-                // Add "Flags" column cell
-                const flagsCell = document.createElement('td');
-                const flags = flagColumns.filter(key => item[key] > 0);
-                flagsCell.textContent = flags.join(', ');
-                row.appendChild(flagsCell);
+                if (document.getElementById('categorySelect').value !== 'consumables') {
+                    // Add "Flags" column cell
+                    const flagsCell = document.createElement('td');
+                    const flags = flagColumns.filter(key => item[key] > 0);
+                    flagsCell.textContent = flags.join(', ');
+                    row.appendChild(flagsCell);
+                }
 
                 tableBody.appendChild(row);
             });
         }
-
-
-
-
 
         function searchData() {
             const searchInput = document.getElementById('searchInput').value.toLowerCase();
